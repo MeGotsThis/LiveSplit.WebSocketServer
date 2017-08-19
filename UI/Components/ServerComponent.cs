@@ -231,7 +231,21 @@ namespace LiveSplit.UI.Components
 
         public void Dispose()
         {
+            State.OnSplit -= State_OnSplit;
+            State.OnUndoSplit -= State_OnUndoSplit;
+            State.OnSkipSplit -= State_OnSkipSplit;
             State.OnStart -= State_OnStart;
+            State.OnReset -= State_OnReset;
+            State.OnPause -= State_OnPause;
+            State.OnUndoAllPauses -= State_OnUndoAllPauses;
+            State.OnResume -= State_OnResume;
+            State.OnScrollUp -= State_OnScrollUp;
+            State.OnScrollDown -= State_OnScrollDown;
+            State.OnSwitchComparisonPrevious -= State_OnSwitchComparisonPrevious;
+            State.OnSwitchComparisonNext -= State_OnSwitchComparisonNext;
+            State.RunManuallyModified -= State_RunManuallyModified;
+            State.ComparisonRenamed -= State_ComparisonRenamed;
+
             CloseAllConnections();
         }
 
