@@ -3,12 +3,14 @@ using LiveSplit.Options;
 using LiveSplit.Web;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 using WebSocketSharp.Server;
@@ -133,7 +135,13 @@ namespace LiveSplit.UI.Components
             Settings.SetSettings(settings);
             if (Server == null && Settings.AutoStart)
             {
-                Start();
+                var worker = new BackgroundWorker();
+                worker.DoWork += delegate
+                {
+                    Thread.Sleep(500);
+                    Start();
+                };
+                worker.RunWorkerAsync();
             }
         }
 
