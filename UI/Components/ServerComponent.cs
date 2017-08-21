@@ -23,6 +23,7 @@ namespace LiveSplit.UI.Components
         public WebSocketServer Server { get; set; }
 
         protected System.Timers.Timer Timer { get; set; }
+        protected SynchronizationContext CurrentContext { get; set; }
 
         protected LiveSplitState State { get; set; }
         protected Form Form { get; set; }
@@ -64,6 +65,8 @@ namespace LiveSplit.UI.Components
             State.OnSwitchComparisonNext += State_OnSwitchComparisonNext;
             State.RunManuallyModified += State_RunManuallyModified;
             State.ComparisonRenamed += State_ComparisonRenamed;
+
+            CurrentContext = SynchronizationContext.Current;
         }
 
         public void Start()
@@ -139,7 +142,10 @@ namespace LiveSplit.UI.Components
                 worker.DoWork += delegate
                 {
                     Thread.Sleep(500);
-                    Start();
+                    CurrentContext.Send((o) =>
+                    {
+                        Start();
+                    }, null);
                 };
                 worker.RunWorkerAsync();
             }
@@ -164,7 +170,10 @@ namespace LiveSplit.UI.Components
 
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            SendState("refresh", null);
+            CurrentContext.Send((o) =>
+            {
+              SendState("refresh", null);
+            }, null);
         }
 
         private void State_OnSplit(object sender, EventArgs e)
