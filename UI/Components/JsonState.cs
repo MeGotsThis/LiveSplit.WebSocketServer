@@ -23,6 +23,8 @@ namespace LiveSplit.UI.Components
             json.run.attemptCount = state.Run.AttemptCount;
             json.run.finishedCount = state.Run.AttemptHistory.Where(x => x.Time.RealTime != null).Count();
             json.run.comparisons = state.Run.Comparisons;
+            json.run.advancedSumOfBest = ConvertTimeSpanToJson(SumOfBest.CalculateSumOfBest(state.Run, false, true, state.CurrentTimingMethod));
+            json.run.totalPlaytime = ConvertTimeSpanToJson(CalculateTotalPlaytime(state));
             json.run.segments = new DynamicJsonObject[state.Run.Count];
             json.timerState = state.CurrentPhase.ToString();
             json.currentComparison = state.CurrentComparison;
@@ -37,7 +39,7 @@ namespace LiveSplit.UI.Components
             json.pauseTime = ConvertTimeSpanToJson(state.PauseTime);
             json.currentAttemptDuration = ConvertTimeSpanToJson(state.CurrentAttemptDuration);
             json.currentSplitIndex = state.CurrentSplitIndex;
-            for(var i = 0; i < state.Run.Count; i++)
+            for (var i = 0; i < state.Run.Count; i++)
             {
                 var segment = state.Run[i];
                 dynamic segmentJson = new DynamicJsonObject();
@@ -104,6 +106,36 @@ namespace LiveSplit.UI.Components
             json.realTime = (long?) time.RealTime?.TotalMilliseconds;
             json.gameTime = (long?) time.GameTime?.TotalMilliseconds;
             return json;
+        }
+
+        public static TimeSpan CalculateTotalPlaytime(LiveSplitState state)
+        {
+            var totalPlaytime = TimeSpan.Zero;
+
+            foreach (var attempt in state.Run.AttemptHistory)
+            {
+                var duration = attempt.Duration;
+
+                if (duration.HasValue)
+                {
+                    //Either >= 1.6.0 or a finished run
+                    totalPlaytime += duration.Value - (attempt.PauseTime ?? TimeSpan.Zero);
+                }
+                else
+                {
+                    //Must be < 1.6.0 and a reset
+                    //Calculate the sum of the segments for that run
+
+                    foreach (var segment in state.Run)
+                    {
+                        Time segmentHistoryElement;
+                        if (segment.SegmentHistory.TryGetValue(attempt.Index, out segmentHistoryElement) && segmentHistoryElement.RealTime.HasValue)
+                            totalPlaytime += segmentHistoryElement.RealTime.Value;
+                    }
+                }
+            }
+
+            return totalPlaytime;
         }
     }
 }
