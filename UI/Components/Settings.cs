@@ -12,6 +12,8 @@ namespace LiveSplit.UI.Components
 
         public ushort Port { get; set; }
 
+        public bool ReadOnly { get; set; }
+
         public string LocalIP { get; set; }
 
         public string GetIP()
@@ -33,11 +35,13 @@ namespace LiveSplit.UI.Components
             InitializeComponent();
             AutoStart = false;
             Port = 15721;
+            ReadOnly = false;
             LocalIP = GetIP();
             label3.Text = LocalIP;
 
             chkAutoStart.DataBindings.Add("Checked", this, "AutoStart", false, DataSourceUpdateMode.OnPropertyChanged);
             txtPort.DataBindings.Add("Text", this, "PortString", false, DataSourceUpdateMode.OnPropertyChanged);
+            chkReadOnly.DataBindings.Add("Checked", this, "ReadOnly", false, DataSourceUpdateMode.OnPropertyChanged);
         }
 
         public XmlNode GetSettings(XmlDocument document)
@@ -55,13 +59,15 @@ namespace LiveSplit.UI.Components
         private int CreateSettingsNode(XmlDocument document, XmlElement parent)
         {
             return SettingsHelper.CreateSetting(document, parent, "AutoStart", AutoStart) ^
-                SettingsHelper.CreateSetting(document, parent, "Port", PortString);
+                SettingsHelper.CreateSetting(document, parent, "Port", PortString) ^
+                SettingsHelper.CreateSetting(document, parent, "ReadOnly", ReadOnly);
         }
 
         public void SetSettings(XmlNode settings)
         {
             AutoStart = SettingsHelper.ParseBool(settings["AutoStart"], false);
             PortString = SettingsHelper.ParseString(settings["Port"]);
+            ReadOnly = SettingsHelper.ParseBool(settings["ReadOnly"], false);
         }
     }
 }

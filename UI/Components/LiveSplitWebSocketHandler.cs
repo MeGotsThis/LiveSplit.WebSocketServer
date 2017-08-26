@@ -10,11 +10,13 @@ namespace LiveSplit.UI.Components
     {
         private LiveSplitState state;
         private ITimerModel model;
+        private Settings settings;
 
-        public LiveSplitWebSocketBehavior(LiveSplitState state, ITimerModel model)
+        public LiveSplitWebSocketBehavior(LiveSplitState state, ITimerModel model, Settings settings)
         {
             this.state = state;
             this.model = model;
+            this.settings = settings;
         }
 
         protected override void OnOpen()
@@ -56,6 +58,10 @@ namespace LiveSplit.UI.Components
                     Send(jsonData.ToString());
                     break;
                 case "startorsplit":
+                    if (settings.ReadOnly)
+                    {
+                        break;
+                    }
                     if (state.CurrentPhase == TimerPhase.Running)
                     {
                         model.Split();
@@ -66,36 +72,72 @@ namespace LiveSplit.UI.Components
                     }
                     break;
                 case "split":
+                    if (settings.ReadOnly)
+                    {
+                        break;
+                    }
                     model.Split();
                     break;
                 case "unsplit":
+                    if (settings.ReadOnly)
+                    {
+                        break;
+                    }
                     model.UndoSplit();
                     break;
                 case "skipsplit":
+                    if (settings.ReadOnly)
+                    {
+                        break;
+                    }
                     model.SkipSplit();
                     break;
                 case "pause":
+                    if (settings.ReadOnly)
+                    {
+                        break;
+                    }
                     if (state.CurrentPhase != TimerPhase.Paused)
                     {
                         model.Pause();
                     }
                     break;
                 case "resume":
+                    if (settings.ReadOnly)
+                    {
+                        break;
+                    }
                     if (state.CurrentPhase == TimerPhase.Paused)
                     {
                         model.Pause();
                     }
                     break;
                 case "reset":
+                    if (settings.ReadOnly)
+                    {
+                        break;
+                    }
                     model.Reset();
                     break;
                 case "starttimer":
+                    if (settings.ReadOnly)
+                    {
+                        break;
+                    }
                     model.Start();
                     break;
                 case "pausegametime":
+                    if (settings.ReadOnly)
+                    {
+                        break;
+                    }
                     state.IsGameTimePaused = true;
                     break;
                 case "unpausegametime":
+                    if (settings.ReadOnly)
+                    {
+                        break;
+                    }
                     state.IsGameTimePaused = false;
                     break;
             }

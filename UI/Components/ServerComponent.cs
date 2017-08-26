@@ -74,7 +74,7 @@ namespace LiveSplit.UI.Components
             CloseAllConnections();
 
             Server = new WebSocketServer(Settings.Port);
-            Server.AddWebSocketService<LiveSplitWebSocketBehavior>("/", () => new LiveSplitWebSocketBehavior(State, Model));
+            Server.AddWebSocketService<LiveSplitWebSocketBehavior>("/", () => new LiveSplitWebSocketBehavior(State, Model, Settings));
             Server.Start();
 
             Timer = new System.Timers.Timer(15000);

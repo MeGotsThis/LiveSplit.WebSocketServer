@@ -29,12 +29,13 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.chkAutoStart = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtPort = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.chkAutoStart = new System.Windows.Forms.CheckBox();
+            this.chkReadOnly = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -43,6 +44,7 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.chkReadOnly, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.chkAutoStart, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.txtPort, 1, 1);
@@ -53,13 +55,27 @@
             this.tableLayoutPanel1.Location = new System.Drawing.Point(10, 11);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.RowCount = 5;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 56F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(646, 349);
             this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // chkAutoStart
+            // 
+            this.chkAutoStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkAutoStart.AutoSize = true;
+            this.tableLayoutPanel1.SetColumnSpan(this.chkAutoStart, 2);
+            this.chkAutoStart.Location = new System.Drawing.Point(10, 10);
+            this.chkAutoStart.Margin = new System.Windows.Forms.Padding(10, 5, 4, 5);
+            this.chkAutoStart.Name = "chkAutoStart";
+            this.chkAutoStart.Size = new System.Drawing.Size(632, 24);
+            this.chkAutoStart.TabIndex = 1;
+            this.chkAutoStart.Text = "Auto Start WebSocket Server";
+            this.chkAutoStart.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -114,18 +130,19 @@
             this.label4.Text = "This is NOT your public IP. With most network setups, only devices on your networ" +
     "k can use this address to find your computer.";
             // 
-            // chkAutoStart
+            // chkReadOnly
             // 
-            this.chkAutoStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkAutoStart.AutoSize = true;
-            this.tableLayoutPanel1.SetColumnSpan(this.chkAutoStart, 2);
-            this.chkAutoStart.Location = new System.Drawing.Point(10, 10);
-            this.chkAutoStart.Margin = new System.Windows.Forms.Padding(10, 5, 4, 5);
-            this.chkAutoStart.Name = "chkAutoStart";
-            this.chkAutoStart.Size = new System.Drawing.Size(632, 24);
-            this.chkAutoStart.TabIndex = 1;
-            this.chkAutoStart.Text = "Auto Start WebSocket Server";
-            this.chkAutoStart.UseVisualStyleBackColor = true;
+            this.chkReadOnly.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkReadOnly.AutoSize = true;
+            this.tableLayoutPanel1.SetColumnSpan(this.chkReadOnly, 2);
+            this.chkReadOnly.Location = new System.Drawing.Point(10, 189);
+            this.chkReadOnly.Margin = new System.Windows.Forms.Padding(10, 5, 4, 5);
+            this.chkReadOnly.Name = "chkReadOnly";
+            this.chkReadOnly.Size = new System.Drawing.Size(632, 24);
+            this.chkReadOnly.TabIndex = 5;
+            this.chkReadOnly.Text = "Read Only Mode (This disables the control to send actions to LiveSplit)";
+            this.chkReadOnly.UseVisualStyleBackColor = true;
             // 
             // Settings
             // 
@@ -151,5 +168,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox chkAutoStart;
+        private System.Windows.Forms.CheckBox chkReadOnly;
     }
 }
