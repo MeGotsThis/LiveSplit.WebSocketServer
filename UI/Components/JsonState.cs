@@ -26,6 +26,13 @@ namespace LiveSplit.UI.Components
             json.run.advancedSumOfBest = ConvertTimeSpanToJson(SumOfBest.CalculateSumOfBest(state.Run, false, true, state.CurrentTimingMethod));
             json.run.totalPlaytime = ConvertTimeSpanToJson(CalculateTotalPlaytime(state));
             json.run.segments = new DynamicJsonObject[state.Run.Count];
+            json.run.metadata = new DynamicJsonObject();
+            json.run.metadata.gameId = state.Run.Metadata.Game?.ID;
+            json.run.metadata.categoryId = state.Run.Metadata.Category?.ID;
+            json.run.metadata.regionId = state.Run.Metadata.Region?.ID;
+            json.run.metadata.platformId = state.Run.Metadata.Platform?.ID;
+            json.run.metadata.emulator = state.Run.Metadata.UsesEmulator;
+            json.run.metadata.variables = state.Run.Metadata.VariableValues.ToDictionary((kv) => kv.Key.ID, (kv) => (object)kv.Value.Value);
             json.timerState = state.CurrentPhase.ToString();
             json.currentComparison = state.CurrentComparison;
             json.currentTimingMethod = state.CurrentTimingMethod.ToString();
